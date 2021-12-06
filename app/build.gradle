@@ -17,6 +17,7 @@ android {
     defaultConfig {
         configurations.all {
             resolutionStrategy { force 'androidx.core:core-ktx:1.6.0' }
+            //resolutionStrategy { force "com.squareup.okhttp3:okhttp:4.3.0" }
         }
         applicationId "com.uk.clearscore"
         minSdk 21
@@ -90,4 +91,9 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    androidTestImplementation 'androidx.test.ext:junit-ktx:1.1.3'
+    androidTestImplementation 'androidx.test:core-ktx:1.4.0'
+    androidTestImplementation('androidx.test.espresso:espresso-core:3.4.0')
+    androidTestImplementation('androidx.test.espresso:espresso-intents:3.4.0')
+    androidTestImplementation 'com.squareup.okhttp3:mockwebserver:3.11.0'
 }

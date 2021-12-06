@@ -27,48 +27,56 @@
             android:padding="@dimen/margin_10">
 
             <TextView
+                android:id="@+id/score"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@{@string/score +` `+ report.score}"
                 android:layout_marginBottom="@dimen/margin_10"/>
 
             <TextView
+                android:id="@+id/status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@{@string/status +` `+ report.status}"
                 android:layout_marginBottom="@dimen/margin_10"/>
 
             <TextView
+                android:id="@+id/max_score"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@{@string/maxScoreValue +` `+ report.maxScoreValue}"
                 android:layout_marginBottom="@dimen/margin_10"/>
 
             <TextView
+                android:id="@+id/min_score"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@{@string/minScoreValue +` `+ report.minScoreValue}"
                 android:layout_marginBottom="@dimen/margin_10"/>
 
             <TextView
+                android:id="@+id/percentage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@{@string/percentageCreditUsed +` `+ report.percentageCreditUsed}"
                 android:layout_marginBottom="@dimen/margin_10"/>
 
             <TextView
+                android:id="@+id/current_short"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@{@string/currentShortTermDebt +` `+ report.currentShortTermDebt}"
                 android:layout_marginBottom="@dimen/margin_10"/>
 
             <TextView
+                android:id="@+id/current_limit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@{@string/currentShortTermCreditLimit +` `+ report.currentShortTermCreditLimit}"
                 android:layout_marginBottom="@dimen/margin_10"/>
 
             <TextView
+                android:id="@+id/next_report"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@{@string/daysUntilNextReport +` `+ report.daysUntilNextReport}"

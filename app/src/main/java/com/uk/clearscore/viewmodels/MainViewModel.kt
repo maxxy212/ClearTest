@@ -16,11 +16,9 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    repository: Repository
-    ) : ViewModel() {
+    repository: Repository) : ViewModel() {
 
     var report: Report? = repository.realm().where<Report>().findFirst()
-
 }
 
 class Repository @Inject constructor() {
