@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">ClearScore</string>
+    <string name="your_score">Your credit score is</string>
+    <string name="out_of">out of </string>
+
+    <string name="conn_error">Error Connecting, Please Check Your Internet Connection</string>
+    <string name="parse_error">Oops! Could Not Process Your Request, Please Try Again</string>
+    <string name="req_error">Your Request Has Been Canceled..</string>
+    <string name="data_base_err">"Database Error"</string>
+    <string name="server_error">Server Error!</string>
+    <string name="network_err">"Network Error"</string>
+    <string name="load">Loading…</string>
+    <string name="ok">OK</string>
+    <string name="error_needs_structure">An error message that would come from the backend</string>
+    <string name="score">Score: </string>
+    <string name="status">Status: </string>
+    <string name="maxScoreValue">MaxScoreValue: </string>
+    <string name="minScoreValue">MinScoreValue: </string>
+    <string name="percentageCreditUsed">PercentageCreditUsed: </string>
+    <string name="currentShortTermDebt">CurrentShortTermDebt: </string>
+    <string name="currentShortTermCreditLimit">CurrentShortTermCreditLimit: </string>
+    <string name="daysUntilNextReport">DaysUntilNextReport: </string>
+</resources>

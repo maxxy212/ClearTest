@@ -1,0 +1,93 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'realm-android'
+    id 'dagger.hilt.android.plugin'
+}
+
+android {
+    compileSdk 31
+    flavorDimensions "default"
+    buildFeatures {
+        dataBinding true
+        viewBinding true
+    }
+
+    defaultConfig {
+        configurations.all {
+            resolutionStrategy { force 'androidx.core:core-ktx:1.6.0' }
+        }
+        applicationId "com.uk.clearscore"
+        minSdk 21
+        targetSdk 31
+        versionCode 1
+        versionName "1.0"
+        vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
+        resConfigs "en"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        ndk {
+            abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
+        }
+    }
+
+    buildTypes {
+        release {
+            debuggable false
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+    }
+
+    productFlavors {
+        staging {
+            dimension "default"
+            buildConfigField "String", "BASE_URL", "\"https://android-interview.s3.eu-west-2.amazonaws.com/\""
+            lintOptions {
+                checkReleaseBuilds false
+                abortOnError false
+            }
+        }
+        production {
+            minSdkVersion 21
+            dimension "default"
+            versionName '1.0.0'
+            buildConfigField "String", "BASE_URL", "\"https://android-interview.s3.eu-west-2.amazonaws.com/\""
+        }
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.appcompat:appcompat:1.4.0'
+    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
+
+    implementation 'com.amitshekhar.android:android-networking:1.0.2'
+    implementation 'io.realm:android-adapters:3.0.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0'
+    implementation 'com.kaopiz:kprogresshud:1.2.0'
+    implementation 'com.gdacciaro:iosdialog:1.0.3'
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    annotationProcessor "com.google.dagger:hilt-android-compiler:$hilt_version"
+    kapt("com.google.dagger:hilt-android-compiler:$hilt_version")
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+}
