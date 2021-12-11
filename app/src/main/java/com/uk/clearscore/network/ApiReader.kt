@@ -1,7 +1,9 @@
 package com.uk.clearscore.network
 
 import android.content.Context
+import android.text.TextUtils
 import android.util.Log
+import androidx.annotation.VisibleForTesting
 import com.androidnetworking.error.ANError
 import com.uk.clearscore.R
 import okhttp3.Response
@@ -23,6 +25,7 @@ class ApiReader {
 
     lateinit var data: JSONObject
     private lateinit var anError: ANError
+    @VisibleForTesting
     private val code: Int
 
     constructor(okHttpResponse: Response, js: JSONObject) {
@@ -46,10 +49,10 @@ class ApiReader {
 
     val isSuccess: Boolean
         get() {
-            val OK_RESPONSE = 200
-            val CREATED_RESPONSE = 201
-            val DUPLICATE_RESPONSE = 202
-            return code == OK_RESPONSE || code == CREATED_RESPONSE || code == DUPLICATE_RESPONSE
+        val OK_RESPONSE = 200
+        val CREATED_RESPONSE = 201
+        val DUPLICATE_RESPONSE = 202
+        return code == OK_RESPONSE || code == CREATED_RESPONSE || code == DUPLICATE_RESPONSE
         }
 
     val isFailed: Boolean
@@ -109,4 +112,19 @@ class ApiReader {
                 ", code=" + code +
                 '}'
     }
+}
+
+class StringChecker {
+    fun isTextEmpty(text : String) : Boolean{
+        return TextUtils.isEmpty(text)
+    }
+}
+
+object ExampleObject {
+    fun add(a: Int, b: Int): Int {return a + b}
+}
+
+class Car {
+    fun drive() = accelerate()
+    private fun accelerate() = "going faster"
 }

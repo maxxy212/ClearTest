@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var ui: DialogUtil
     @Inject
     lateinit var  creditCall: CreditCall
+    private val TAG =  MainActivity::class.java.simpleName
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var mainViewModel: MainViewModel
@@ -43,22 +44,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        ui.showNonCloseableProgress()
-        creditCall.getCreditScore(object : ApiCallHandler() {
-            override fun done() {
-                ui.dismissProgress()
-            }
-
-            override fun success(data: Any) {
-                super.success(data)
-                binding.report = Realm.getDefaultInstance().where<Report>().findFirst()
-            }
-
-            override fun failed(title: String, reason: String) {
-                super.failed(title, reason)
-                ui.showErrorDialog(title, reason)
-            }
-
-        })
+        mainViewModel.getCreditScore(ui, creditCall, binding)
     }
 }

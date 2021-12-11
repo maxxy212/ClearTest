@@ -14,6 +14,10 @@ android {
         viewBinding true
     }
 
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
     defaultConfig {
         configurations.all {
             resolutionStrategy { force 'androidx.core:core-ktx:1.6.0' }
@@ -96,4 +100,7 @@ dependencies {
     androidTestImplementation('androidx.test.espresso:espresso-core:3.4.0')
     androidTestImplementation('androidx.test.espresso:espresso-intents:3.4.0')
     androidTestImplementation 'com.squareup.okhttp3:mockwebserver:3.11.0'
+    testImplementation "io.mockk:mockk:1.12.1"
+    //androidTestImplementation "io.mockk:mockk-android:1.12.1" // For android Test
+    testImplementation 'org.json:json:20180813'
 }
