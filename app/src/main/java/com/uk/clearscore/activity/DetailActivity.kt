@@ -9,14 +9,23 @@ import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import com.uk.clearscore.R
 import com.uk.clearscore.databinding.ActivityDetailBinding
+import com.uk.clearscore.network.api.CreditCall
+import com.uk.clearscore.utility.DialogUtil
 import com.uk.clearscore.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import io.realm.Realm
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class DetailActivity : AppCompatActivity() {
+    @Inject
+    lateinit var ui: DialogUtil
+    @Inject
+    lateinit var  creditCall: CreditCall
 
     private lateinit var binding: ActivityDetailBinding
     private lateinit var mainViewModel: MainViewModel
+    private lateinit var realm: Realm
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,9 +35,10 @@ class DetailActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         toolbar.setNavigationIcon(R.drawable.ic_back)
         toolbar.setNavigationOnClickListener { onBackPressed() }
-
-        mainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
-        binding.report = mainViewModel.report
+        realm = Realm.getDefaultInstance()
+        mainViewModel = ViewModelProvider(this,
+            MainViewModel.MainViewFactory(creditCall, ui, realm))[MainViewModel::class.java]
+        binding.report = mainViewModel.getReport()
     }
 
     companion object {

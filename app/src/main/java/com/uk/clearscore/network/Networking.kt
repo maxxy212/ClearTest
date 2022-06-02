@@ -3,8 +3,11 @@ package com.uk.clearscore.network
 import android.util.Log
 import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.common.Priority
+import com.androidnetworking.interfaces.OkHttpResponseAndJSONArrayRequestListener
 import com.androidnetworking.interfaces.OkHttpResponseAndJSONObjectRequestListener
+import com.androidnetworking.interfaces.OkHttpResponseAndStringRequestListener
 import com.uk.clearscore.BuildConfig
+import org.json.JSONObject
 
 /**
  * Package com.uk.clearscore.network in
@@ -28,4 +31,20 @@ object Networking {
             .build()
             .getAsOkHttpResponseAndJSONObject(listener)
     }
+
+    @JvmStatic
+    fun postData(endpoint: String,
+                 jsonObject: JSONObject,
+                 listener: OkHttpResponseAndJSONObjectRequestListener){
+        Log.d(TAG, "postData: Gammeeee" + API_ENDPOINT)
+        Log.d(TAG, API_ENDPOINT + endpoint)
+        AndroidNetworking.post(API_ENDPOINT + endpoint)
+            .addJSONObjectBody(jsonObject)
+            .setTag(endpoint)
+            .setPriority(Priority.MEDIUM)
+            .addHeaders("Content-Type", "application/json")
+            .build()
+            .getAsOkHttpResponseAndJSONObject(listener)
+    }
+
 }

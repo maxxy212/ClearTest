@@ -1,0 +1,12 @@
+{
+    "score":514,
+    "scoreBand":4,
+    "clientRef":"CS-SED-655426-708782",
+    "status":"MATCH",
+    "maxScoreValue":700,
+    "minScoreValue":0,
+    "percentageCreditUsed":44,
+    "currentShortTermDebt":13758,
+    "currentShortTermCreditLimit": 30600,
+    "daysUntilNextReport": 5
+}

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
-        <variable name="report" type="com.uk.clearscore.model.Report" />
+        <variable name="mainViewModel" type="com.uk.clearscore.viewmodels.MainViewModel" />
     </data>
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     android:layout_width="match_parent"
@@ -21,19 +21,20 @@
             android:id="@+id/view_wrapper"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center">
+            android:layout_gravity="center"
+            android:onClick="@{() -> mainViewModel.goToDetails()}">
 
             <ProgressBar
                 android:id="@+id/circularProgressbar"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="250dp"
                 android:layout_height="250dp"
-                android:indeterminate="false"
-                android:max="@{report.maxScoreValue}"
-                android:progress="@{report.score}"
                 android:layout_centerInParent="true"
+                android:indeterminate="false"
+                android:max="@{mainViewModel.reportMutableGenerated.maxScoreValue}"
+                android:progress="@{mainViewModel.reportMutableGenerated.score}"
                 android:progressDrawable="@drawable/circular_view"
-                android:secondaryProgress="@{report.maxScoreValue}" />
+                android:secondaryProgress="@{mainViewModel.reportMutableGenerated.maxScoreValue}" />
 
             <LinearLayout
                 android:id="@+id/inner_circle"
@@ -57,7 +58,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
-                    android:text="@{String.valueOf(report.score)}"
+                    android:text="@{String.valueOf(mainViewModel.reportMutableGenerated.score)}"
                     android:gravity="center"
                     android:textColor="@color/purple_500"/>
 
@@ -65,7 +66,7 @@
                     android:id="@+id/max_score"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{@string/out_of +` `+ String.valueOf(report.maxScoreValue)}"
+                    android:text="@{@string/out_of +` `+ String.valueOf(mainViewModel.reportMutableGenerated.maxScoreValue)}"
                     android:textSize="11sp"
                     android:textStyle="bold"
                     android:gravity="center"/>

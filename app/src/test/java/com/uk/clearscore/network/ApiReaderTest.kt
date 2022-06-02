@@ -1,17 +1,17 @@
-package com.uk.clearscore
+package com.uk.clearscore.network
 
 import android.content.Context
-import android.text.TextUtils
-import android.widget.TextView
+import android.util.Log
 import com.androidnetworking.error.ANError
-import com.uk.clearscore.network.*
+import com.uk.clearscore.BuildConfig
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import junit.framework.Assert.*
 import okhttp3.*
-import org.hamcrest.MatcherAssert.assertThat
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import org.json.JSONException
 import org.json.JSONObject
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
@@ -39,7 +39,8 @@ class ApiReaderTest {
     @Before
     fun setUp() {
         MockKAnnotations.init(this, relaxUnitFun = true)
-        mockkStatic(TextUtils::class)
+        every { jsonObject.optString("message") } returns "Dummy"
+        mockkConstructor(ApiReader::class)
     }
 
     @Test
@@ -91,34 +92,17 @@ class ApiReaderTest {
     @Test
     fun testHandleErrorCall() {
         val api = spyk(ApiReader(getAnError()))
-        every { api.handleError(context, getAnError(), any(), any()) } returns Unit
-//        api.handleError(context, getAnError(), callHandler, "TAG")
-//        verify { api.handleError(context, getAnError(), callHandler, "TAG") }
+        justRun { api.handleError(context, any(), any())  }
+        mockkStatic(Log::class)
+        every { Log.d(any(), any()) } returns 0
+        api.handleError(context, callHandler, "TAG")
+        verify { api.handleError(context, callHandler, "TAG") }
+        confirmVerified(api)
     }
 
-    @Test
-    fun stringChecker_is_empty() {
-        val stringCheck = spyk(StringChecker(), recordPrivateCalls = true)
-        every { TextUtils.isEmpty(any()) } returns true
-        assertTrue(stringCheck.isTextEmpty("test"))
-    }
-
-    @Test
-    fun testObj() {
-        mockkObject(ExampleObject)
-        every { ExampleObject.add(4, 5) } returns 9
-    }
-
-    @Test
-    fun testDynamic() {
-        val mock = spyk(Car(), recordPrivateCalls = true)
-        every { mock["accelerate"]() } returns "going not so fast"
-        assertEquals("going not so fast", mock.drive())
-
-        verifySequence {
-            mock.drive()
-            mock["accelerate"]()
-        }
+    @After
+    fun afterTest() {
+        unmockkAll()
     }
 
     fun get200Response() : Response {
@@ -131,7 +115,7 @@ class ApiReaderTest {
             .code(200)
             .message("")
             .body(ResponseBody.create(
-                MediaType.parse("application/json; charset=utf-8"),
+                "application/json; charset=utf-8".toMediaTypeOrNull(),
                 "{}"
             ))
             .build()
@@ -149,7 +133,7 @@ class ApiReaderTest {
             .code(400)
             .message("")
             .body(ResponseBody.create(
-                MediaType.parse("application/json; charset=utf-8"),
+                "application/json; charset=utf-8".toMediaTypeOrNull(),
                 "{}"
             ))
             .build()
@@ -167,7 +151,7 @@ class ApiReaderTest {
             .code(500)
             .message("Error")
             .body(ResponseBody.create(
-                MediaType.parse("application/json; charset=utf-8"),
+                "application/json; charset=utf-8".toMediaTypeOrNull(),
                 "{}"
             ))
             .build()
@@ -189,7 +173,7 @@ class ApiReaderTest {
             .code(404)
             .message("")
             .body(ResponseBody.create(
-                MediaType.parse("application/json; charset=utf-8"),
+                "application/json; charset=utf-8".toMediaTypeOrNull(),
                 "{}"
             ))
             .build()
@@ -207,7 +191,7 @@ class ApiReaderTest {
             .code(403)
             .message("")
             .body(ResponseBody.create(
-                MediaType.parse("application/json; charset=utf-8"),
+                "application/json; charset=utf-8".toMediaTypeOrNull(),
                 "{}"
             ))
             .build()
@@ -225,7 +209,7 @@ class ApiReaderTest {
             .code(500)
             .message("")
             .body(ResponseBody.create(
-                MediaType.parse("application/json; charset=utf-8"),
+                "application/json; charset=utf-8".toMediaTypeOrNull(),
                 "{}"
             ))
             .build()
@@ -245,24 +229,4 @@ class ApiReaderTest {
         return obj
     }
 
-    //    @Test
-//    fun apiIsSuccess() {
-//        //given
-//        //apiReader = mockk()
-//        //apiReader = mockk()
-//        //mockkClass(ApiReader::class)
-//        mockkConstructor(ApiReader::class, recordPrivateCalls = true)
-//        every { anyConstructed<ApiReader>() getProperty "code" } propertyType Int::class returns 200
-//        val result = ApiReader(response, jsonObject)
-//        assertTrue(result.isSuccess)
-//    }
-
-//    @Test
-//    fun testPrivate() {
-//        val mock = spyk(ApiReader(response, jsonObject), recordPrivateCalls = true)
-////        every { mock getProperty "code" } returns 200
-////        verify { mock getProperty "code"}
-//        every { mock setProperty "code" value 200 } just runs
-//        verify { mock setProperty "code" value 200 }
-//    }
 }

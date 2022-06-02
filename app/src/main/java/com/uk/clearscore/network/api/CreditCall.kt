@@ -36,9 +36,9 @@ class CreditCall @Inject constructor(@param:ApplicationContext private val conte
                     try {
                         Realm.getDefaultInstance().use { realm ->
                             realm.executeTransaction {
-                                it.createOrUpdateObjectFromJson(Report::class.java, apiReader.getJsonObjectFromData("creditReportInfo"))
+                                val report = it.createOrUpdateObjectFromJson(Report::class.java, apiReader.getJsonObjectFromData("creditReportInfo"))
+                                callHandler.success(report)
                             }
-                            callHandler.success(apiReader.data)
                         }
                     } catch (e: Exception) {
                         callHandler.failed(context.getString(R.string.data_base_err), e.message ?: "Something went wrong")
@@ -50,7 +50,7 @@ class CreditCall @Inject constructor(@param:ApplicationContext private val conte
 
             override fun onError(anError: ANError) {
                 val apiReader = ApiReader(anError)
-                apiReader.handleError(context, anError, callHandler, TAG)
+                apiReader.handleError(context, callHandler, TAG)
             }
 
         })

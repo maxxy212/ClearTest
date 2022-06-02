@@ -1,6 +1,11 @@
 package com.uk.clearscore.viewmodels
 
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import com.uk.clearscore.activity.DetailActivity
 import com.uk.clearscore.databinding.ActivityMainBinding
 import com.uk.clearscore.model.Report
 import com.uk.clearscore.network.ApiCallHandler
@@ -18,13 +23,22 @@ import javax.inject.Inject
 
  * Created by Maxwell on 06/12/2021
  */
-@HiltViewModel
-class MainViewModel @Inject constructor(
-    repository: Repository) : ViewModel() {
+class MainViewModel constructor(private val creditCall: CreditCall,
+                                private val ui: DialogUtil, private val realm: Realm) : ViewModel() {
 
-    var report: Report? = repository.realm().where<Report>().findFirst()
+    private val TAG = MainViewModel::class.java.simpleName
+    var reportMutableGenerated = MutableLiveData<Report>()
 
-    fun getCreditScore(ui: DialogUtil, creditCall: CreditCall, binding: ActivityMainBinding) {
+    @Suppress("UNCHECKED_CAST")
+    class MainViewFactory(private val creditCall: CreditCall,
+                          private val ui: DialogUtil, private val realm: Realm) : ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return MainViewModel(creditCall, ui, realm) as T
+        }
+
+    }
+
+    fun getCreditScore() {
         ui.showNonCloseableProgress()
         creditCall.getCreditScore(object : ApiCallHandler() {
             override fun done() {
@@ -33,18 +47,22 @@ class MainViewModel @Inject constructor(
 
             override fun success(data: Any) {
                 super.success(data)
-                binding.report = Realm.getDefaultInstance().where<Report>().findFirst()!!
+                Log.d(TAG, "success: ${data as Report}")
+                reportMutableGenerated.value = data
             }
 
             override fun failed(title: String, reason: String) {
                 super.failed(title, reason)
                 ui.showErrorDialog(title, reason)
             }
-
         })
     }
-}
 
-class Repository @Inject constructor() {
-    fun realm() = Realm.getDefaultInstance()
+    fun getReport() : Report {
+        return realm.where<Report>().findFirst()!!
+    }
+
+    fun goToDetails() {
+        DetailActivity.start(ui.activity)
+    }
 }

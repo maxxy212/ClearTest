@@ -1,14 +1,12 @@
-package com.uk.clearscore
+package com.uk.clearscore.utility
 
 import android.app.Activity
 import android.content.Context
 import android.text.TextUtils
 import com.uk.clearscore.utility.DialogUtil
-import io.mockk.MockKAnnotations
-import io.mockk.every
+import io.mockk.*
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockkStatic
-import io.mockk.spyk
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
@@ -45,5 +43,10 @@ class DialogUtilTest {
     fun testshowNonCloseableDialogReturn() {
         val presenter = spyk(DialogUtil(activity))
         every { presenter.showNonCloseableProgress("") } returns Unit
+    }
+
+    @After
+    fun afterTest() {
+        unmockkAll()
     }
 }

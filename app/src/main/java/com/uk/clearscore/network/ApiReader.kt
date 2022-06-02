@@ -91,7 +91,7 @@ class ApiReader {
         return obj
     }
 
-    fun handleError(context: Context, anError: ANError, callHandler: ApiCallHandler, TAG: String?) {
+    fun handleError(context: Context, callHandler: ApiCallHandler, TAG: String?) {
         anError.printStackTrace()
         Log.d(TAG, "onError: " + anError.errorCode)
         if (isAuthorizationError) {
@@ -112,19 +112,4 @@ class ApiReader {
                 ", code=" + code +
                 '}'
     }
-}
-
-class StringChecker {
-    fun isTextEmpty(text : String) : Boolean{
-        return TextUtils.isEmpty(text)
-    }
-}
-
-object ExampleObject {
-    fun add(a: Int, b: Int): Int {return a + b}
-}
-
-class Car {
-    fun drive() = accelerate()
-    private fun accelerate() = "going faster"
 }

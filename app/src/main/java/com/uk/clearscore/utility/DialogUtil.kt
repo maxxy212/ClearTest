@@ -15,7 +15,7 @@ import javax.inject.Inject
  * Created by Maxwell on 06/12/2021
  */
 @ActivityScoped
-class DialogUtil @Inject constructor(private val activity: Activity) {
+class DialogUtil @Inject constructor(public val activity: Activity) {
 
     private var hud: KProgressHUD? = null
 
